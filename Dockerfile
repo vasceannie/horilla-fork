@@ -8,10 +8,13 @@ WORKDIR /app/
 
 COPY . .
 
-RUN chmod +x /app/entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+RUN sed -i 's/\r$//g' /entrypoint.sh
 
 RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
-CMD ["python3", "manage.py", "runserver"]
+# Set the entrypoint
+ENTRYPOINT ["/entrypoint.sh"]
